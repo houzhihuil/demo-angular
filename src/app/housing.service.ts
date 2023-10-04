@@ -1,13 +1,11 @@
 import { Injectable } from '@angular/core';
 import { HousingLocation } from './housinglocation';
+
 @Injectable({
   providedIn: 'root'
 })
-export class HousingService {
-
-  readonly baseUrl = 'https://angular.io/assets/images/tutorials/faa';
-
-  protected housingLocationList: HousingLocation[] = [
+export class HousingService { 
+/*   protected housingLocationList: HousingLocation[] = [
     {
       id: 0,
       name: 'Acme Fresh Start Housing',
@@ -108,14 +106,27 @@ export class HousingService {
       wifi: true,
       laundry: true
     }
-  ];
+  ]; */
   
-  getAllHousingLocations(): HousingLocation[] {
+
+/*   getAllHousingLocations(): HousingLocation[] {
     return this.housingLocationList;
   }
   
   getHousingLocationById(id: number): HousingLocation | undefined {
     return this.housingLocationList.find(housingLocation => housingLocation.id === id);
+  } */
+
+  url = 'http://localhost:3000/locations';
+  
+  async getAllHousingLocations(): Promise<HousingLocation[]> {
+    const data = await fetch(this.url);
+    return await data.json() ?? [];
+  }
+
+  async getHousingLocationById(id: number): Promise<HousingLocation | undefined> {
+    const data = await fetch(`${this.url}/${id}`);
+    return await data.json() ?? {};
   }
   
   submitApplication(firstName: string, lastName: string, email: string) {
